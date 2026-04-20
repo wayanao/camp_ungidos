@@ -33,9 +33,9 @@ app.add_middleware(
 )
 
 
-@app.on_event("startup")
-def startup_event():
-    init_db()
+#@app.on_event("startup")
+#def startup_event():
+    #init_db()
 
 
 @app.get("/")
