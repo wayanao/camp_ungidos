@@ -7,6 +7,7 @@ from services.person_service import (
     get_dashboard,
     get_person_balance,
     get_person_detail,
+    list_all_payments,
     list_debtors,
     list_people,
     update_person,
@@ -51,3 +52,7 @@ def debtors_report_controller():
 
 def dashboard_controller():
     return get_dashboard()
+
+
+def all_payments_controller():
+    return list_all_payments()

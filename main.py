@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from config.database import init_db
 from routes.auth_routes import legacy_router
 from routes.auth_routes import router as auth_router
+from routes.expense_routes import router as expense_router
 from routes.person_routes import reports_router
 from routes.person_routes import router as people_router
 
@@ -37,3 +37,4 @@ app.include_router(auth_router)
 app.include_router(legacy_router)
 app.include_router(people_router)
 app.include_router(reports_router)
+app.include_router(expense_router)

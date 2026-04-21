@@ -362,6 +362,39 @@ def list_debtors() -> list[dict]:
     return [balance for balance in _fetch_people_balances() if balance["balance"] > 0]
 
 
+def list_all_payments() -> list[dict]:
+    with get_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT
+                    pay.id, pay.person_id, pay.amount, pay.payment_date,
+                    pay.payment_method, pay.reference, pay.notes, pay.created_at,
+                    CONCAT(p.first_name, ' ', p.last_name) AS full_name,
+                    p.document
+                FROM payments pay
+                JOIN people p ON p.id = pay.person_id
+                ORDER BY pay.payment_date DESC, pay.id DESC
+                """
+            )
+            rows = cursor.fetchall()
+    return [
+        {
+            "id": r["id"],
+            "person_id": r["person_id"],
+            "full_name": r["full_name"],
+            "document": r["document"],
+            "amount": float(r["amount"]),
+            "payment_date": r["payment_date"],
+            "payment_method": r["payment_method"],
+            "reference": r["reference"],
+            "notes": r["notes"],
+            "created_at": r["created_at"],
+        }
+        for r in rows
+    ]
+
+
 def get_dashboard() -> dict:
     balances = _fetch_people_balances()
     total_charged = round(sum(item["total_charged"] for item in balances), 2)

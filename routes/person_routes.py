@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from controllers.person_controller import (
     add_charge_controller,
     add_payment_controller,
+    all_payments_controller,
     create_person_controller,
     dashboard_controller,
     delete_person_controller,
@@ -78,3 +79,8 @@ def debtors_report():
 @reports_router.get("/dashboard", response_model=DashboardResponse)
 def dashboard():
     return dashboard_controller()
+
+
+@reports_router.get("/all-payments")
+def all_payments():
+    return all_payments_controller()
