@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
@@ -9,10 +11,17 @@ from routes.person_routes import reports_router
 from routes.person_routes import router as people_router
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
+
 app = FastAPI(
     title="Campamento Cristiano API",
     description="API para registro de personas, pagos y reportes de deuda.",
     version="1.0.0",
+    lifespan=lifespan,
 )
 
 
@@ -27,11 +36,6 @@ async def cors_middleware(request: Request, call_next):
     response = await call_next(request)
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
-
-
-@app.on_event("startup")
-def on_startup():
-    init_db()
 
 
 @app.get("/")
