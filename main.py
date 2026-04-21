@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
+from config.database import init_db
 from routes.auth_routes import legacy_router
 from routes.auth_routes import router as auth_router
 from routes.expense_routes import router as expense_router
@@ -26,6 +27,11 @@ async def cors_middleware(request: Request, call_next):
     response = await call_next(request)
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
+
+
+@app.on_event("startup")
+def on_startup():
+    init_db()
 
 
 @app.get("/")

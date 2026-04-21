@@ -114,6 +114,19 @@ def init_db() -> None:
                 );
                 """
             )
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS expenses (
+                    id BIGSERIAL PRIMARY KEY,
+                    concept TEXT NOT NULL,
+                    amount NUMERIC(12, 2) NOT NULL,
+                    date DATE NOT NULL,
+                    category TEXT NOT NULL DEFAULT 'general',
+                    notes TEXT,
+                    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+                );
+                """
+            )
             seed_defaults(cursor)
         connection.commit()
 
