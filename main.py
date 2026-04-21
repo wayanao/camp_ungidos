@@ -40,7 +40,7 @@ async def cors_middleware(request: Request, call_next):
 
 @app.get("/")
 def healthcheck():
-    return {"message": "Campamento Cristiano API activa"}
+    return {"message": "Campamento Cristiano API activa", "version": "2.0"}
 
 
 app.include_router(auth_router)
