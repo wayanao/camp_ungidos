@@ -46,9 +46,11 @@ def update_person(person_id: int, data: PersonUpdate):
     return update_person_controller(person_id, data)
 
 
-@router.delete("/{person_id}", status_code=204)
+@router.delete("/{person_id}", status_code=200)
 def delete_person(person_id: int):
     delete_person_controller(person_id)
+    return {"message": "Eliminado correctamente"}
+
 
 
 @router.get("/{person_id}", response_model=PersonDetailResponse)
